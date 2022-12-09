@@ -1,63 +1,63 @@
-import java.io.*;
 import java.util.*;
-  
-class Reverse_K_alternate {
 
-    Node kAltReverse(Node node, int k)
-    {
-        Node current = node;
-        Node next = null, prev = null;
-        int count = 0;
- 
-        while (current != null && count < k) 
-        {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-            count++;
-        }
- 
-        if (node != null)
-        {
-            node.next = current;
-        }
- 
-        count = 0;
-        while (count < k - 1 &&
-               current != null)
-        {
-            current = current.next;
-            count++;
-        }
- 
-        if (current != null)
-        {
-            current.next =
-                    kAltReverse(current.next, k);
-        }
- 
-
-        return prev;
-    }
+public class Reverse_K_alternate {
 
     public static void main(String[] args)
     {
-  
-        
-        LinkedList<Integer> ll = new LinkedList<Integer>();
-  
 
-        for (int i = 1; i <= 5; i++)
+
+        LinkedList<Integer> ll = new LinkedList<Integer>();
+
+
+        for (int i = 1; i <= 14; i++)
             ll.add(i);
-  
+
         System.out.println(ll);
-  
-        ll.remove(3);
-  
+
+        int k_value= 5;
+
         System.out.println(ll);
-  
-        for (int i = 0; i < ll.size(); i++)
-            System.out.print(ll.get(i) + " ");
+
+        int i = 0;
+
+        for( i=0; i<k_value*(ll.size()/k_value);i++){
+
+            int start = i;
+            int end = i+k_value-1;
+
+
+            reverseLinkedList(ll,start,end);
+
+            i = end+k_value;
+        }
+
+        if(ll.size()%k_value!=0){
+            remaining_rev(ll,i,ll.size()-1);
+        }
+
+        for (int j = 0; j < ll.size(); j++)
+            System.out.print(ll.get(j) + " ");
     }
+
+    private static void remaining_rev(LinkedList<Integer> ll, int j, int i1) {
+
+        for ( int i=j; i <= (j+i1)/2; i++) {
+            Integer temp = ll.get(i);
+            ll.set(i, ll.get(i1 - i +j));
+            ll.set(i1 - i+j, temp);
+        }
+    }
+
+    public static void reverseLinkedList(LinkedList<Integer> llist, int start, int end )
+    {
+        for (int i = start; i < (start+end)/2; i++) {
+            Integer temp = llist.get(i);
+            llist.set(i, llist.get(end - i +start));
+            llist.set(end - i+start, temp);
+        }
+
+        // Return the reversed arraylist
+
+    }
+
 }
